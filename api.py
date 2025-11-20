@@ -416,3 +416,22 @@ class API:
         }
         
         return self._make_request('GET', url, params=params)
+
+    def get_mark_by_course(self, campus_code: str, course_id: str,
+                          roll_number: str, authen: str) -> Dict[str, Any]:
+        """
+        Get detailed marks/grades for a specific course.
+        Returns grade breakdown including assignments, tests, projects, and exams.
+        """
+        checksum = self.checksum.checksum_k(roll_number, campus_code)
+        
+        url = f"{self.BASE_URL}/GetMarkByCourse"
+        params = {
+            'campusCode': campus_code,
+            'CourseId': course_id,
+            'rollNumber': roll_number,
+            'Authen': authen,
+            'checksum': checksum
+        }
+        
+        return self._make_request('GET', url, params=params)
